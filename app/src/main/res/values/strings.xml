@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Rajayoga Meditation</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+    <string name="apiKey">AIzaSyAdCw9TpAqumlfvtb_WOm3eXzJFkEiMtSU</string>
+    <string name="placeholder">https://argoswimvideo.com/wp-content/uploads/2017/11/video-placeholder-1280x720-40.jpg</string>
+    <string name="title_activity_contact_us">ContactUsActivity</string>
+    <string name="title_activity_favourite">FavouriteActivity</string>
+    <string name="welcome">Welcome to Rajayoga Meditation. You can reach us for any Spiritual Query on this journey of Peace and Happiness.</string>
+</resources>

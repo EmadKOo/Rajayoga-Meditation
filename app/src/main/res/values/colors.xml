@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#272b2f</color>
+    <color name="colorPrimaryDark">#272b2f</color>
+    <color name="colorAccent">#464C53</color>
+    <color name="homeToolbar">#272b2f</color>
+    <color name="titleYellow">#ECA250</color>
+    <color name="menucolor">#03A9F4</color>
+    <color name="white">#ffffff</color>
+    <color name="white_transparent">#00FFFFFF</color>
+    <color name="item_pressed">#14ededed</color>
+    <color name="white_bg">#FFFAF9</color>
+    <color name="border">#6abc4139</color>
+    <color name="green">#786868</color>
+    <color name="orange">#f4a81d</color>
+    <color name="greenDark">#504545</color>
+    <color name="GrayDark">#6d6e71</color>
+    <color name="GrayLight">#939597</color>
+    <color name="GrayLighty">#F6F6F6</color>
+    <color name="transparent">#00000000</color>
+    <color name="colorPrimary_transparent">#32613433</color>
+    <color name="black">#000000</color>
+    <color name="black2">#525252</color>
+    <color name="colorPrimary_shadow">#cebf4a43</color>
+    <color name="black_shadow">#7b361816</color>
+    <color name="color_dialog_shadow">#46bf4a43</color>
+    <color name="menu_item_selected">#46bf4a43</color>
+    <color name="menu_item_unselected">#00bf4a43</color>
+
+    <color name="Btn_color">#bf4a43</color>
+    <color name="Titel_Font_color">#482d2d</color>
+    <color name="Text_field_color">#80482d2d</color>
+    <color name="pargraph_font_color">#cc482d2d</color>
+
+    <color name="start">#e4635c</color>
+    <color name="notification_color">#e4635c</color>
+    <color name="youtubelogo">#FF0000</color>
+    <color name="loginbtn">#851410</color>
+    <color name="blueShade">#59CAED</color>
+    <color name="moreblueShade">#59CAED</color>
+
+    <color name="placeholder_bg">#dddddd</color>
+</resources>

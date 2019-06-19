@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".MainActivity"
+    tools:showIn="@layout/app_bar_main">
+
+    <!--<com.google.android.youtube.player.YouTubePlayerView-->
+        <!--android:id="@+id/playerView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="#fff"-->
+        <!--/>-->
+
+    <fragment
+        android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
+        android:id="@+id/fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/fragment"
+        android:orientation="vertical"
+        android:weightSum="2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:weightSum="2"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:id="@+id/dailyMurli"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@drawable/daily_border">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/dailyIco"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:src="@drawable/shivp"
+                    android:layout_centerInParent="true"/>
+                <emad.youtube.Tools.RegularFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Shiv Baba Daily Murli"
+                    android:textColor="#fff"
+                    android:textSize="15sp"
+                    android:layout_below="@+id/dailyIco"
+                    android:layout_centerHorizontal="true"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/murliRevision"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/revision_borde">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/reviosonIco"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:src="@drawable/revp"
+                    android:layout_centerInParent="true"/>
+                <emad.youtube.Tools.RegularFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Avyakt Murli Revision"
+                    android:textColor="#fff"
+                    android:textSize="15sp"
+                    android:layout_below="@+id/reviosonIco"
+                    android:layout_centerHorizontal="true"/>
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:id="@+id/experienceMeditaion"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/experience_border">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/experinceIco"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:src="@drawable/expper"
+                    android:layout_centerInParent="true"/>
+                <emad.youtube.Tools.RegularFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Experience Meditation"
+                    android:textColor="#fff"
+                    android:textSize="15sp"
+                    android:layout_below="@+id/experinceIco"
+                    android:layout_centerHorizontal="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/dailyInspiration"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/insiperation_border">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/insiperationIco"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:src="@drawable/dialycrop"
+                    android:layout_centerInParent="true"/>
+                <emad.youtube.Tools.RegularFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Daily Inspirations"
+                    android:textColor="#fff"
+                    android:textSize="15sp"
+                    android:layout_below="@+id/insiperationIco"
+                    android:layout_centerHorizontal="true"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+</RelativeLayout>

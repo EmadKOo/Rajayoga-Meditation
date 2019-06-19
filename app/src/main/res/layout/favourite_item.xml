@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <com.comix.rounded.RoundedCornerImageView
+        android:id="@+id/imgFav"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/mm"
+        android:scaleType="fitXY"
+        android:layout_margin="10dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"/>
+
+    <ImageView
+        android:id="@+id/favIco"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/fav_ico"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="10dp"/>
+    <TextView
+        android:id="@+id/titleFav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/imgFav"
+        android:layout_alignTop="@+id/imgFav"
+        android:layout_toLeftOf="@+id/favIco"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:textColor="#000"
+        android:textSize="16sp"
+        android:text="fffffffffffffffffffffffffffffffffffffffffffff" />
+</RelativeLayout>

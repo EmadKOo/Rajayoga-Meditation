@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PlayingVideoActivity"
+    android:background="@color/white"
+    android:descendantFocusability="blocksDescendants">
+
+    <com.google.android.youtube.player.YouTubePlayerView
+        android:id="@+id/playerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_below="@id/playerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/mchannelbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true">
+                <include layout="@layout/channel_bar"/>
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/restOfVideos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/mchannelbar"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Comments"
+                android:layout_below="@id/restOfVideos"
+                android:id="@+id/commentsText"
+                android:textColor="#000"
+                android:textSize="17sp"
+                android:layout_margin="10dip"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/commentsOfVideo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/commentsText"/>
+
+            <TextView
+                android:id="@+id/noComments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/commentsText"
+                android:layout_margin="20dip"
+                android:textSize="17sp"
+                android:text="There is no Comments yet"
+                android:layout_centerHorizontal="true"
+                android:textColor="#000"
+                android:visibility="gone"/>
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+</RelativeLayout>

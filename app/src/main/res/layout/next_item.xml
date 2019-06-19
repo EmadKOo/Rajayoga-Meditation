@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:shimmer="http://schemas.android.com/tools">
+
+    <com.comix.rounded.RoundedCornerImageView
+        android:id="@+id/imgPlaylistItem"
+        android:layout_width="70dp"
+        android:layout_height="57dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/mm"
+        app:cornerRadius="4dp"
+        android:layout_margin="10dip"/>
+
+    <TextView
+        android:id="@+id/namePlaylistItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="title"
+        android:layout_toRightOf="@+id/imgPlaylistItem"
+        android:layout_alignParentTop="@+id/imgPlaylistItem"
+        android:layout_marginTop="10dip"
+        android:textSize="17sp"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/publishedAt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Yesterday"
+        android:textColor="@color/black_shadow"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/imgPlaylistItem"/>
+
+</RelativeLayout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="emad.youtube">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" /> <!--for youtube subscribetion-->
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".SecurityActivity"></activity>
+        <activity android:name=".AuthActivity" />
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/FullScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".PlayingVideoActivity" />
+        <activity
+            android:name=".FavouriteActivity"
+            android:label="@string/title_activity_favourite"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".SearchActivity" />
+        <activity android:name=".SubscribeActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity
+            android:name=".ContactUsActivity"
+            android:label="@string/title_activity_contact_us"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AboutUsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".TestActivity" />
+        <activity
+            android:name=".LatestVideosActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".DisplayImageActivity" />
+        <activity
+            android:name=".DailyActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".StartActivity" />
+        <activity android:name=".PlayVideoActivity" />
+        <activity
+            android:name=".ViewPlaylistVideosActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ViewPlayListsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+    </application>
+
+</manifest>

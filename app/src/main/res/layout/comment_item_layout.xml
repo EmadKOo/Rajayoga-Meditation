@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/commentAuthorImg"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:src="@drawable/placeholder"
+        android:layout_alignParentLeft="true"/>
+
+    <TextView
+        android:id="@+id/authorName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Author Name"
+        android:layout_toRightOf="@+id/commentAuthorImg"
+        android:layout_alignTop="@+id/commentAuthorImg"
+        android:textColor="#000"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/commentTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1 month ago"
+        android:textColor="@color/black_shadow"
+        android:layout_marginRight="10dp"
+        android:layout_alignTop="@+id/commentAuthorImg"
+        android:layout_alignParentRight="true"/>
+
+    <TextView
+        android:id="@+id/authorComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Author Comment Comment Comment Comment Comment Comment Comment"
+        android:layout_toRightOf="@+id/commentAuthorImg"
+        android:layout_below="@+id/authorName"
+        android:textColor="@color/black"
+        android:textSize="15sp"/>
+
+</RelativeLayout>

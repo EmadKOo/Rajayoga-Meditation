@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/showMore"
+        android:id="@+id/reactionLayout"
+        android:layout_margin="5dip">
+
+        <TextView
+            android:id="@+id/likeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="Like"
+            android:textSize="16sp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"/>
+
+        <TextView
+            android:id="@+id/dislikeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="Dislike"
+            android:textSize="16sp"
+            android:layout_toRightOf="@+id/likeBtn"
+            android:layout_marginLeft="20dip"/>
+
+        <TextView
+            android:id="@+id/subscribeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="Subscribe"
+            android:textSize="16sp"
+            android:layout_toRightOf="@+id/dislikeBtn"
+            android:layout_marginLeft="20dip"/>
+
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/videoName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textColor="@color/black"
+        android:layout_below="@id/reactionLayout"
+        android:layout_margin="3dip"
+        android:textSize="16sp"
+        android:layout_toLeftOf="@+id/showMore"
+        />
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/channelImage"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/placeholder"
+        android:layout_margin="10dip"
+        android:layout_below="@+id/videoName"/>
+
+
+    <TextView
+        android:id="@+id/channelName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="channelTitle"
+        android:layout_alignTop="@+id/channelImage"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:layout_toRightOf="@+id/channelImage"/>
+
+    <TextView
+        android:id="@+id/channelSubscribers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1200 subscribers"
+        android:textColor="@color/black_shadow"
+        android:textSize="11sp"
+        android:layout_below="@+id/channelName"
+        android:layout_toRightOf="@+id/channelImage"/>
+    <TextView
+        android:id="@+id/videoViews"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1248888888888 views"
+        android:textColor="@color/black_shadow"
+        android:textSize="11sp"
+        android:layout_below="@+id/channelSubscribers"
+        android:layout_toRightOf="@+id/channelImage"/>
+    <ImageView
+        android:id="@+id/showMore"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/videoName"
+        android:layout_alignParentTop="true"
+        android:layout_margin="10dip"
+        android:src="@drawable/more_black"/>
+
+    <TextView
+        android:id="@+id/videoDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Video desc"
+        android:textColor="@color/black_shadow"
+        android:textSize="14sp"
+        android:layout_margin="10dip"
+        android:visibility="gone"
+        android:layout_below="@+id/channelImage"
+        android:layout_alignStart="@+id/channelImage"
+        android:layout_alignLeft="@+id/channelImage" />
+
+    <ImageView
+        android:id="@+id/favIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/dislike"
+        android:layout_below="@+id/showMore"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dip"
+        android:visibility="gone"
+        android:layout_alignTop="@id/channelName" />
+</RelativeLayout>

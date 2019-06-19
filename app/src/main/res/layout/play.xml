@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:shimmer="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/first"
+        android:layout_width="match_parent"
+        android:layout_height="10dip"
+        android:visibility="gone" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white_bg">
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_view_container"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:background="@color/white_bg"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            shimmer:duration="800">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dip"
+                android:layout_marginTop="20dip"
+                android:layout_marginEnd="20dip"
+                android:layout_marginBottom="20dip"
+                android:background="@color/placeholder_bg" />
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <ImageView
+            android:id="@+id/imgPlaylistItem"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="20dip"
+            android:layout_marginTop="20dip"
+            android:layout_marginEnd="20dip"
+            android:layout_marginBottom="20dip"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1080:510"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/item_shadow"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="20dip"
+            android:layout_marginTop="20dip"
+            android:layout_marginEnd="20dip"
+            android:layout_marginBottom="20dip"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/shadow"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1080:510"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.comix.rounded.RoundedCornerImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="20dip"
+            android:layout_marginTop="20dip"
+            android:layout_marginEnd="20dip"
+            android:layout_marginBottom="20dip"
+            app:cornerColor="@color/white_bg"
+            app:cornerRadius="4dip"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1080:510"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/namePlaylistItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|bottom"
+            android:layout_margin="35dip"
+            android:gravity="start|center"
+            android:textAlignment="viewStart"
+            android:textColor="@color/white"
+            android:text="Hello"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</LinearLayout>

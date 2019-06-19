@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/home"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_allPlaylists"
+            android:icon="@drawable/all_playlists"
+            android:title="All Playlists" />
+        <item
+            android:id="@+id/nav_Daily"
+            android:icon="@drawable/daily_insp"
+            android:title="Daily Inspirations" />
+        <item
+            android:id="@+id/nav_latestVideos"
+            android:icon="@drawable/latestico"
+            android:title="Latest Videos" />
+
+
+        <item
+            android:id="@+id/nav_Fav"
+            android:icon="@drawable/fav"
+            android:title="Favourite Videos" />
+        <item
+            android:id="@+id/nav_About"
+            android:icon="@drawable/about"
+            android:title="About Us" />
+
+        <item
+            android:id="@+id/nav_Contact"
+            android:icon="@drawable/contact"
+            android:title="Contact Us" />
+        <item
+            android:id="@+id/nav_Rate"
+            android:icon="@drawable/rate"
+            android:title="Rate Us"
+            android:visible="false"/>
+
+
+    <item
+        android:id="@+id/nav_Login"
+        android:icon="@drawable/login"
+        android:title="Sign out" />
+</menu>
