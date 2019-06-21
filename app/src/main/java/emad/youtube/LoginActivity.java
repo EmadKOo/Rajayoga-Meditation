@@ -37,7 +37,7 @@ public class LoginActivity extends BaseActivity {
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
 
-    String type;
+    //String type;
     Button doAuth;
     EditText editTextLoginMail;
     EditText editTextLoginPassword;
@@ -51,11 +51,12 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
-        type = getIntent().getStringExtra("type");
         initViews();
+       /* type = getIntent().getStringExtra("type");
         if (type.equals("Register"))
             doAuth.setText("Register ");
-        handleAuth();
+        */
+       handleAuth();
 
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -73,7 +74,7 @@ public class LoginActivity extends BaseActivity {
     public void initViews(){
         imgBackIco = findViewById(R.id.imgBackIco);
         typeAuth = findViewById(R.id.typeAuth);
-        typeAuth.setText(type);
+        //typeAuth.setText(type);
         googleSignIn = findViewById(R.id.googleSignIn);
         doAuth = findViewById(R.id.doAuth);
         editTextLoginMail = findViewById(R.id.editTextLoginMail);
@@ -93,7 +94,7 @@ public class LoginActivity extends BaseActivity {
                 signIn();
             }
         });
-        doAuth.setOnClickListener(new View.OnClickListener() {
+       /* doAuth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -146,7 +147,7 @@ public class LoginActivity extends BaseActivity {
 
             }
         });
-
+*/
     }
     @Override
     public void onStart() {
@@ -254,5 +255,11 @@ public class LoginActivity extends BaseActivity {
 //            mDetailTextView.setText(null);
 //            findViewById(R.id.signOutAndDisconnect).setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity
         ,YouTubePlayer.PlayerStateChangeListener {
 
 //    YouTubePlayerView playerView;
+    YouTubePlayer mYouTubePlayer;
     YouTubePlayerSupportFragment frag;
     String videoID;
     Video video;
@@ -69,13 +71,13 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
 
+
         currentAPIKey = randomAPI.getRandomKey();
         Log.d(TAG, "onCreate: APIIIIIII  " + currentAPIKey);
         mAuth = FirebaseAuth.getInstance();
         setSupportActionBar(toolbar);
         initViews();
         frag = (YouTubePlayerSupportFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-
 //        playerView = findViewById(R.id.playerView);
         getLatestVideoID();
 
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         if (mAuth.getCurrentUser()==null)
-            navigationView.getMenu().getItem(8).setTitle("Login ");
+            navigationView.getMenu().getItem(8).setTitle("Sign in ");
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -157,7 +159,7 @@ public class MainActivity extends AppCompatActivity
     }
     // get The latest Video id of Creative Meditation
     private void getLatestVideoID() {
-        String url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=PLkYTNBmHiJIirqEKHbB8Nd5gAutWaIGpz&key="+currentAPIKey;
+        String url = "https://www.googleapis.com/youtube/v3/playlistItems?rel=0&part=snippet&maxResults=50&playlistId=PLkYTNBmHiJIirqEKHbB8Nd5gAutWaIGpz&key="+currentAPIKey;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -165,26 +167,17 @@ public class MainActivity extends AppCompatActivity
                         try {
                            video =new Gson().fromJson(response, Video.class);
                             int flagNOTPrivate = 0;
-//                            Log.d(TAG, "onResponse: " + video.getKind());
-//                            Log.d(TAG, "onResponse: " + video.getItems().length);
-//                            Log.d(TAG, "onResponse: " + video.getItems()[0].getVideoSnippets().getVideoResources().getVideoId());
-//                            Log.d(TAG, "onResponse: " + video.getItems()[0].getVideoSnippets().getThumbnails().getMediumThumbs().getUrl());
-//                            videoID = video.getItems()[0].getVideoSnippets().getVideoResources().getVideoId();
-//                            playerView.initialize(getString(R.string.apiKey),MainActivity.this);
-//                            frag.initialize(getString(R.string.apiKey),MainActivity.this);
+                                for (int x = 0; x <video.getItems().length ; x++) {
+                                    if (!video.getItems()[x].getVideoSnippets().getTitle().equals("Private video")){
+                                        flagNOTPrivate=1;
+                                        videoID = video.getItems()[x].getVideoSnippets().getVideoResources().getVideoId();
 
-                            for (int x = 0; x <video.getItems().length ; x++) {
-                                if (!video.getItems()[x].getVideoSnippets().getTitle().equals("Private video")){
-                                    flagNOTPrivate=1;
-                                    videoID = video.getItems()[x].getVideoSnippets().getVideoResources().getVideoId();
-
-                                }
-                                if (flagNOTPrivate==1)
-                                    break;
+                                    }
+                                    if (flagNOTPrivate==1)
+                                        break;
                             }
 
                             frag.initialize(currentAPIKey,MainActivity.this);
-
 
                         }catch (Exception ex){
                             Log.d(TAG, "onResponse:ERROR " + ex.getMessage());
@@ -220,28 +213,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-*/
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -268,11 +239,10 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_Login) {
             if (mAuth.getCurrentUser()==null)
-                startActivity(new Intent(MainActivity.this, AuthActivity.class));
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
             else{
                 mAuth.signOut();
-                item.setTitle("Login ");
-
+                item.setTitle("Sign in ");
             }
 
         }
@@ -284,11 +254,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-        youTubePlayer.setPlayerStateChangeListener(this);
-        youTubePlayer.setPlaybackEventListener(this);
-        youTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
+        mYouTubePlayer = youTubePlayer;
+        mYouTubePlayer.setPlayerStateChangeListener(this);
+        mYouTubePlayer.setPlaybackEventListener(this);
+        mYouTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
         if (!b)
-            youTubePlayer.cueVideo(videoID);
+            mYouTubePlayer.cueVideo(videoID);
+
+
     }
 
     @Override
@@ -298,16 +271,18 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onPlaying() {
-
+        mYouTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
     }
 
     @Override
     public void onPaused() {
-
+        Log.d(TAG, "onPaused: STOPPED");
+        mYouTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.MINIMAL);
     }
 
     @Override
     public void onStopped() {
+        mYouTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.MINIMAL);
 
     }
 
@@ -323,12 +298,12 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLoading() {
-
+        mYouTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.MINIMAL);
     }
 
     @Override
     public void onLoaded(String s) {
-
+        mYouTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
     }
 
     @Override
@@ -338,12 +313,12 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onVideoStarted() {
-
+        mYouTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
     }
 
     @Override
     public void onVideoEnded() {
-
+        mYouTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.MINIMAL);
     }
 
     @Override

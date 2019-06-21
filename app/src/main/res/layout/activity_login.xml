@@ -36,7 +36,7 @@
                     android:id="@+id/typeAuth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Playlist Name"
+                    android:text="To be connected with us"
                     android:textSize="20sp"
                     android:textColor="@color/white"
                     android:layout_centerVertical="true"
@@ -51,7 +51,7 @@
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="240dp"
         android:src="@drawable/channel_image"/>
 
     <TextView
@@ -75,7 +75,8 @@
         android:textColor="@color/black2"
         android:textSize="12sp"
         android:textStyle="normal"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        />
 
     <EditText
         android:id="@+id/editTextLoginMail"
@@ -91,7 +92,9 @@
         android:inputType="textEmailAddress"
         android:maxLines="1"
         android:lines="1"
-        android:textColorHint="#414141"/>
+        android:textColorHint="#414141"
+        android:visibility="gone"
+        />
 
     <EditText
         android:id="@+id/editTextLoginPassword"
@@ -107,14 +110,15 @@
         android:maxLines="1"
         android:lines="1"
         android:inputType="textPassword"
-        android:textColorHint="#414141"/>
+        android:textColorHint="#414141"
+        android:visibility="gone" />
 
 
     <Button
         android:id="@+id/doAuth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login  "
+        android:text="Sign in "
         android:textColor="@color/white"
         android:textAllCaps="false"
         android:background="@drawable/second_round_login"
@@ -122,14 +126,16 @@
         android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
         android:paddingLeft="40dp"
-        android:paddingRight="40dp" />
+        android:paddingRight="40dp"
+        android:visibility="gone" />
     <RelativeLayout
         android:id="@+id/googleSignIn"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
         android:background="@drawable/round_login"
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/channeldesc"
         android:layout_centerHorizontal="true">
         <TextView
             android:id="@+id/googleText"

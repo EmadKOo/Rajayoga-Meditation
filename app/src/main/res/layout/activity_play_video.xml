@@ -44,7 +44,7 @@
                 android:text="Comments"
                 android:layout_below="@id/restOfVideos"
                 android:id="@+id/commentsText"
-                android:textColor="#fff"
+                android:textColor="#000"
                 android:textSize="17sp"
                 android:layout_margin="10dip"/>
 
@@ -63,8 +63,9 @@
                 android:textSize="17sp"
                 android:text="There is no Comments yet"
                 android:layout_centerHorizontal="true"
-                android:textColor="#fff"
-                android:visibility="gone"/>
+                android:textColor="#000"
+                android:visibility="gone"
+                android:layout_marginBottom="20dp"/>
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
     <ProgressBar

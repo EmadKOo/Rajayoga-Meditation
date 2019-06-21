@@ -75,7 +75,7 @@ public class ViewPlayListsActivity extends AppCompatActivity implements Navigati
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         if (mAuth.getCurrentUser()==null)
-            navigationView.getMenu().getItem(8).setTitle("Login ");
+            navigationView.getMenu().getItem(8).setTitle("Sign in ");
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         changeIcon(toggle, drawer);
@@ -267,11 +267,11 @@ public class ViewPlayListsActivity extends AppCompatActivity implements Navigati
 
         }else if (id == R.id.nav_Login) {
             if (mAuth.getCurrentUser() == null){
-                startActivity(new Intent(ViewPlayListsActivity.this, AuthActivity.class));
+                startActivity(new Intent(ViewPlayListsActivity.this, LoginActivity.class));
                 finish();
             } else {
                 mAuth.signOut();
-                item.setTitle("Login ");
+                item.setTitle("Sign in ");
             }
         }
 

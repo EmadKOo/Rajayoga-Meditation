@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,7 @@ public class DisplayVideosPlaylistAdapter extends RecyclerView.Adapter<DisplayVi
         try {
             Picasso.get().load(mVideosList.get(i).getSnippet().getThumbnails().getMedium().getUrl()).placeholder(R.drawable.placeholder).into(holder.imgPlaylistItem);
         }catch (Exception ex){
+            Log.d("onBindViewHolder", "onBindViewHolder: EXC  " +ex.getMessage());
             Picasso.get().load(context.getString(R.string.placeholder)).placeholder(R.drawable.placeholder).into(holder.imgPlaylistItem);
         }
         holder.namePlaylistItem.setText(mVideosList.get(i).getSnippet().getTitle());

@@ -108,8 +108,9 @@
         android:layout_height="65dp"
         android:src="@drawable/facebook"
         android:layout_below="@id/stay"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="50dp"/>
+        android:layout_marginTop="22dp"
+        android:layout_toLeftOf="@+id/instaLayout"
+        android:layout_marginRight="50dp"/>
 
     <ImageView
         android:id="@+id/instaLayout"
@@ -118,8 +119,8 @@
         android:src="@drawable/istta"
         android:layout_below="@id/stay"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="50dp"
-        android:layout_toRightOf="@+id/faceLayout"/>
+        android:layout_marginRight="50dp"
+        android:layout_centerHorizontal="true" />
 
     <ImageView
         android:id="@+id/youtubeLayout"
@@ -129,7 +130,7 @@
         android:layout_below="@id/stay"
         android:layout_marginTop="14dp"
         android:adjustViewBounds="true"
-        android:layout_marginLeft="50dp"
+
         android:layout_toRightOf="@+id/instaLayout"/>
 
 </RelativeLayout>

@@ -129,7 +129,7 @@ public class SplashActivity extends AppCompatActivity {
 
     public void auth(String type){
         Intent intent = new Intent(SplashActivity.this,LoginActivity.class);
-        intent.putExtra("type", type);
+//        intent.putExtra("type", type);
         startActivity(intent);
     }
 

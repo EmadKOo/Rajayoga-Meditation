@@ -111,7 +111,7 @@ public class PlayingVideoActivity extends YouTubeBaseActivity
 
 
     YouTubePlayerView playerView;
-    YouTubePlayer mYoutubePlayer;
+    YouTubePlayer mYouTubePlayer;
     String currentVideoID= "";
     String videoType = "";
     Favourite currentVideo;
@@ -267,7 +267,7 @@ public class PlayingVideoActivity extends YouTubeBaseActivity
                         addToSharedPreferences("Subscribed");
                     }
                 }else {
-                    Snackbar.make(findViewById(android.R.id.content), "Login To Subscribe", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(android.R.id.content), "Sign in To Subscribe", Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
@@ -522,11 +522,11 @@ public class PlayingVideoActivity extends YouTubeBaseActivity
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
         if (youTubePlayer!=null){
             try{
-                youTubePlayer.setPlayerStateChangeListener(this);
-                youTubePlayer.setPlaybackEventListener(this);
-                mYoutubePlayer = youTubePlayer;
+                mYouTubePlayer = youTubePlayer;
+                mYouTubePlayer.setPlayerStateChangeListener(this);
+                mYouTubePlayer.setPlaybackEventListener(this);
                 if (!b)
-                    youTubePlayer.loadVideo(currentVideoID);
+                    mYouTubePlayer.loadVideo(currentVideoID);
                 //youTubePlayer.cueVideo(currentVideoID);
             }catch (Exception ex){
                 Log.d(TAG, "onInitializationSuccess: " + ex.getMessage());
@@ -541,16 +541,18 @@ public class PlayingVideoActivity extends YouTubeBaseActivity
 
     @Override
     public void onPlaying() {
-
+        mYouTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
     }
 
     @Override
     public void onPaused() {
+        mYouTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.MINIMAL);
 
     }
 
     @Override
     public void onStopped() {
+        mYouTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.MINIMAL);
 
     }
 
@@ -566,12 +568,12 @@ public class PlayingVideoActivity extends YouTubeBaseActivity
 
     @Override
     public void onLoading() {
-
+        mYouTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.MINIMAL);
     }
 
     @Override
     public void onLoaded(String s) {
-
+        mYouTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
     }
 
     @Override
@@ -581,11 +583,13 @@ public class PlayingVideoActivity extends YouTubeBaseActivity
 
     @Override
     public void onVideoStarted() {
+        mYouTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
 
     }
 
     @Override
     public void onVideoEnded() {
+        mYouTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.MINIMAL);
 
     }
 
@@ -606,10 +610,10 @@ public class PlayingVideoActivity extends YouTubeBaseActivity
 
     @Override
     public void favouriteVideoChanged(Favourite favourite) {
-        if(mYoutubePlayer!=null){
-            mYoutubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
-            mYoutubePlayer.loadVideo(favourite.getVideoID());
-            mYoutubePlayer.play();
+        if(mYouTubePlayer!=null){
+            mYouTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
+            mYouTubePlayer.loadVideo(favourite.getVideoID());
+            mYouTubePlayer.play();
 
             currentVideoID = favourite.getVideoID();
             favouriteArrayList = filterFavouriteList((ArrayList<Favourite>) getIntent().getSerializableExtra("favList"), favourite.getVideoID());
@@ -839,7 +843,7 @@ public class PlayingVideoActivity extends YouTubeBaseActivity
             LikeDislike.setReaction(rate);
             ratingRef.setValue(LikeDislike);
         }else {
-            Toast.makeText(this, "Login with google to like video", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Sign in with google to like video", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -903,8 +907,6 @@ public class PlayingVideoActivity extends YouTubeBaseActivity
 
                 }
             });
-        }else {
-            Toast.makeText(this, "Login with google to like video", Toast.LENGTH_SHORT).show();
         }
         return result;
     }
