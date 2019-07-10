@@ -18,7 +18,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style parent="Theme.AppCompat.Light.NoActionBar" name="FullScreen">
+    <style name="FullScreen" parent="Theme.AppCompat.Light.NoActionBar">
 
         <item name="android:windowFullscreen">true</item>
 

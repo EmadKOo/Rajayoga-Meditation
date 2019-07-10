@@ -36,6 +36,8 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.google.android.youtube.player.YouTubePlayerView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+
 import com.google.gson.Gson;
 
 import emad.youtube.Model.Latest.Latest;
@@ -70,7 +72,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
-
 
         currentAPIKey = randomAPI.getRandomKey();
         Log.d(TAG, "onCreate: APIIIIIII  " + currentAPIKey);
