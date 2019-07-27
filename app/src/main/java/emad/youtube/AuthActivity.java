@@ -47,5 +47,6 @@ public class AuthActivity extends AppCompatActivity {
         Intent intent = new Intent(AuthActivity.this,LoginActivity.class);
         intent.putExtra("type", type);
         startActivity(intent);
+        finish();
     }
 }

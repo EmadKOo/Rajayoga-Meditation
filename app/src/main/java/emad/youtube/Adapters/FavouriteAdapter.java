@@ -47,6 +47,7 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.MyVi
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int i) {
         try{
+
             Picasso.get().load(favouriteList.get(i).getUrl().toString()).into(holder.imgFav);
         }catch (Exception ex){
             Picasso.get().load(context.getString(R.string.placeholder)).placeholder(R.drawable.placeholder).into(holder.imgFav);

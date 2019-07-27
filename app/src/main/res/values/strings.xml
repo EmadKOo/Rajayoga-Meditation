@@ -19,4 +19,7 @@
     <string name="title_activity_favourite">FavouriteActivity</string>
     <string name="welcome">Welcome to Rajayoga Meditation. You can reach us for any Spiritual Query on this journey of Peace and Happiness.</string>
     <string name="title_activity_home">HomeActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

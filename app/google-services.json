@@ -8,6 +8,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:246277926849:android:7487c3243f3fade5",
+        "android_client_info": {
+          "package_name": "emad.priya"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "246277926849-rah96vcm6va9ffrr2gsqdcmoapmrbkkt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "emad.priya",
+            "certificate_hash": "f020884615fb43abd34e6a68471e0bdf59f5a45d"
+          }
+        },
+        {
+          "client_id": "246277926849-c5tpeicg8mdj7lofl2vov70ke1876l4d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDJd01GtY3f43ybfROaza56zn0txM3X3g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "246277926849-c5tpeicg8mdj7lofl2vov70ke1876l4d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:246277926849:android:cdbbfc3d71f39f6f",
         "android_client_info": {
           "package_name": "emad.youtube"

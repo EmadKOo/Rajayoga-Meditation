@@ -8,13 +8,15 @@
 
     <com.comix.rounded.RoundedCornerImageView
         android:id="@+id/imgDaily"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="700dp"
+        android:layout_height="400dp"
         android:layout_alignParentTop="true"
         android:src="@drawable/mm"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
         app:cornerRadius="4dip"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:layout_centerHorizontal="true"/>

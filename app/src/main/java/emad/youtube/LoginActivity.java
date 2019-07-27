@@ -37,7 +37,7 @@ public class LoginActivity extends BaseActivity {
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
 
-    //String type;
+    String type;
     Button doAuth;
     EditText editTextLoginMail;
     EditText editTextLoginPassword;
@@ -51,11 +51,14 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
+        type = getIntent().getStringExtra("type");
         initViews();
-       /* type = getIntent().getStringExtra("type");
-        if (type.equals("Register"))
+        if (type.equals("Register")){
             doAuth.setText("Register ");
-        */
+            googleSignIn.setVisibility(View.GONE);
+        }
+
+
        handleAuth();
 
 
@@ -68,13 +71,12 @@ public class LoginActivity extends BaseActivity {
         // [START initialize_auth]
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-
     }
 
     public void initViews(){
         imgBackIco = findViewById(R.id.imgBackIco);
         typeAuth = findViewById(R.id.typeAuth);
-        //typeAuth.setText(type);
+        typeAuth.setText(type);
         googleSignIn = findViewById(R.id.googleSignIn);
         doAuth = findViewById(R.id.doAuth);
         editTextLoginMail = findViewById(R.id.editTextLoginMail);
@@ -94,7 +96,7 @@ public class LoginActivity extends BaseActivity {
                 signIn();
             }
         });
-       /* doAuth.setOnClickListener(new View.OnClickListener() {
+        doAuth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -109,7 +111,7 @@ public class LoginActivity extends BaseActivity {
                                 if (task.isSuccessful()){
                                     Log.d(TAG, "onComplete:Task Succeeded ");
                                     Toast.makeText(LoginActivity.this, "Register Done Successfully", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                                     finish();
                                 }else {
                                     Log.d(TAG, "onComplete:Task Failed ");
@@ -132,7 +134,7 @@ public class LoginActivity extends BaseActivity {
                                 if (task.isSuccessful()){
                                     Log.d(TAG, "onComplete:Task Succeeded ");
                                     Toast.makeText(LoginActivity.this, "Sign in Done Successfully", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                                     finish();
                                 }else {
                                     Log.d(TAG, "onComplete:Task Failed ");
@@ -147,7 +149,7 @@ public class LoginActivity extends BaseActivity {
 
             }
         });
-*/
+
     }
     @Override
     public void onStart() {
@@ -195,7 +197,8 @@ public class LoginActivity extends BaseActivity {
                             Log.d(TAG, "signInWifCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                            finish();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.d(TAG, "signInWithCredential:failure", task.getException());

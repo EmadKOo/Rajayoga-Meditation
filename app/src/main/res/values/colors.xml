@@ -40,4 +40,6 @@
     <color name="moreblueShade">#59CAED</color>
 
     <color name="placeholder_bg">#dddddd</color>
+    <color name="mainToolbar">#009fce</color>
+
 </resources>

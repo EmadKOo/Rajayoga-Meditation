@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragments.ContactUsFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:background="#fff">
+
+        <!--android:background="#80FEF7E4"-->
+        <RelativeLayout
+            android:id="@+id/blackLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_contact">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/contactImage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/placeholder"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="12dp"/>
+
+            <TextView
+                android:id="@+id/contactChannelName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="Channel Name"
+                android:textColor="#fff"
+                android:layout_below="@id/contactImage"
+                android:layout_alignStart="@+id/contactImage"
+                android:layout_alignLeft="@+id/contactImage"
+                />
+            <TextView
+                android:id="@+id/contactChannelDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:text="Creative Meditation and Daily Murli(Spiritual Study)."
+                android:textColor="#fff"
+                android:layout_below="@id/contactChannelName"
+                android:layout_alignStart="@+id/contactImage"
+                android:layout_alignLeft="@+id/contactImage"
+                android:layout_marginBottom="20dp"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/welcome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/blackLayout"
+            android:textColor="@color/black"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="25dp"
+            android:text="@string/welcome"/>
+
+
+        <RelativeLayout
+            android:id="@+id/emailLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/welcome">
+
+            <ImageView
+                android:id="@+id/mailIcon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/gmail"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_centerVertical="true"
+                />
+
+            <TextView
+                android:id="@+id/mailText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/mailIcon"
+                android:layout_centerVertical="true"
+                android:text="rajayogameditationonline@gmail.com"
+                android:textSize="17sp"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/black" />
+        </RelativeLayout>
+
+        <emad.youtube.Tools.RegularFont
+            android:id="@+id/stay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stay Connected With us "
+            android:textSize="14sp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/homeToolbar"
+            android:layout_below="@+id/emailLayout" />
+
+
+        <ImageView
+            android:id="@+id/faceLayout"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:src="@drawable/facebook"
+            android:layout_below="@id/stay"
+            android:layout_marginTop="22dp"
+            android:layout_toLeftOf="@+id/instaLayout"
+            android:layout_marginRight="50dp"/>
+
+        <ImageView
+            android:id="@+id/instaLayout"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/istta"
+            android:layout_below="@id/stay"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="50dp"
+            android:layout_centerHorizontal="true" />
+
+        <ImageView
+            android:id="@+id/youtubeLayout"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/youtube"
+            android:layout_below="@id/stay"
+            android:layout_marginTop="14dp"
+            android:adjustViewBounds="true"
+
+            android:layout_toRightOf="@+id/instaLayout"/>
+
+    </RelativeLayout>
+
+</FrameLayout>

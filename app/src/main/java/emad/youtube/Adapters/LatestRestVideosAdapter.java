@@ -61,10 +61,12 @@ public class LatestRestVideosAdapter extends RecyclerView.Adapter<LatestRestVide
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView imgPlaylistItem;
         TextView namePlaylistItem;
+        TextView publishedAt;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             imgPlaylistItem = itemView.findViewById(R.id.imgPlaylistItem);
             namePlaylistItem = itemView.findViewById(R.id.namePlaylistItem);
+            publishedAt = itemView.findViewById(R.id.publishedAt);
         }
     }
 }

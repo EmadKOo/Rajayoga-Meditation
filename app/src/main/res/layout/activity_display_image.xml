@@ -28,6 +28,16 @@
         android:layout_alignParentRight="true"
         android:textSize="22sp"/>
 
+    <TextView
+        android:id="@+id/shareDisplayingImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Share"
+        android:layout_margin="20dp"
+        android:textColor="@color/titleYellow"
+        android:layout_toLeftOf="@+id/saveDisplayingImage"
+        android:textSize="22sp"/>
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

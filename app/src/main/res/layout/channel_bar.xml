@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/showMore"
         android:id="@+id/reactionLayout"
-        android:layout_margin="5dip">
+        android:layout_margin="5dip"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/likeBtn"
@@ -51,7 +52,9 @@
         android:text="@string/app_name"
         android:textColor="@color/black"
         android:layout_below="@id/reactionLayout"
-        android:layout_margin="3dip"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"
+        android:layout_marginTop="10dip"
         android:textSize="16sp"
         android:layout_toLeftOf="@+id/showMore"
         />
@@ -99,9 +102,20 @@
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/videoName"
         android:layout_alignParentTop="true"
-        android:layout_margin="10dip"
+        android:layout_marginTop="15dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginLeft="15dip"
         android:src="@drawable/more_black"/>
-
+    <ImageView
+        android:id="@+id/downloadVideo"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_toLeftOf="@+id/favIcon"
+        android:layout_below="@+id/showMore"
+        android:layout_marginRight="10dip"
+        android:layout_alignTop="@id/favIcon"
+        android:layout_marginTop="7dp"
+        android:src="@drawable/download"/>
     <TextView
         android:id="@+id/videoDesc"
         android:layout_width="wrap_content"
@@ -119,10 +133,10 @@
         android:id="@+id/favIcon"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:layout_marginTop="5dp"
         android:src="@drawable/dislike"
         android:layout_below="@+id/showMore"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dip"
-        android:visibility="gone"
         android:layout_alignTop="@id/channelName" />
 </RelativeLayout>

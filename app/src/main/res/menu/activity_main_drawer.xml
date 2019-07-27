@@ -26,6 +26,11 @@
             android:id="@+id/nav_Fav"
             android:icon="@drawable/fav"
             android:title="Favourite Videos" />
+
+        <item
+                android:id="@+id/navOffline"
+                android:icon="@drawable/download"
+                android:title="Offline Videos"/>
         <item
             android:id="@+id/nav_About"
             android:icon="@drawable/about"

@@ -113,7 +113,8 @@ public class SearchActivity extends AppCompatActivity {
                             }
 
                             Log.d(TAG, "onResponse: SIZE " + searchList.size());
-                            adapter.notifyDataSetChanged();
+                            adapter = new SearchAdapter(searchList,SearchActivity.this);
+                            searchRecyclerView.setAdapter(adapter);
 
                         }catch (Exception ex){
                             Log.d(TAG, "onResponse:ERROR " + ex.getMessage());

@@ -1,28 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
 
     <com.comix.rounded.RoundedCornerImageView
         android:id="@+id/imgFav"
         android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/mm"
+        android:layout_height="65dp"
+        android:adjustViewBounds="true"
         android:scaleType="fitXY"
-        android:layout_margin="10dp"
+        android:src="@drawable/mm"
+        app:cornerRadius="4dp"
+        android:layout_margin="10dip"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"/>
 
-    <ImageView
-        android:id="@+id/favIco"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/fav_ico"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="10dp"/>
     <TextView
         android:id="@+id/titleFav"
         android:layout_width="match_parent"
@@ -36,4 +30,13 @@
         android:textColor="#000"
         android:textSize="16sp"
         android:text="fffffffffffffffffffffffffffffffffffffffffffff" />
+
+    <ImageView
+        android:id="@+id/favIco"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/fav_ico"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="10dp"/>
 </RelativeLayout>
