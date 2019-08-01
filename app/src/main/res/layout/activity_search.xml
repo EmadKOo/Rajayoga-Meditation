@@ -43,6 +43,8 @@
                     android:hint="Search"
                     android:background="@color/white"
                     android:textColor="#424242"
+                    android:maxLines="1"
+                    android:inputType="text"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/searchBack"
                     android:textColorHint="#C9C9C9"/>

@@ -166,17 +166,15 @@ public class DailyFragment extends Fragment {
     }
 
     public void initRecyclerView(View view){
-        final CarouselLayoutManager layoutManager = new CarouselLayoutManager(CarouselLayoutManager.HORIZONTAL, false);
+        final CarouselLayoutManager layoutManager = new CarouselLayoutManager(CarouselLayoutManager.HORIZONTAL);
         layoutManager.setPostLayoutListener(new CarouselZoomPostLayoutListener());
 
         instagramRecycler = view.findViewById(R.id.instagramRecycler);
-        instagramRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-   //     instagramRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-     //   instagramRecycler.setLayoutManager(layoutManager);
+        instagramRecycler.setLayoutManager(layoutManager);
+        //instagramRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+
         adapter = new DailyAdapter(getActivity(),allPhotos);
-  //      instagramRecycler.setHasFixedSize(true);
         instagramRecycler.setAdapter(adapter);
-        instagramRecycler.addOnScrollListener(new CenterScrollListener());
 
     }
 }

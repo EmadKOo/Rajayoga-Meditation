@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
-        <shape android:shape="rectangle"
-            android:padding="10dp">
-            <gradient
-                android:angle="45"
-                android:endColor="@color/colorAccent"
-                android:startColor="@color/mainToolbar"
-                android:type="linear" />
-            <padding
-                android:bottom="0dp"
+        <layer-list>
+            <item >
+                <shape>
+                    <!--<corners android:radius="3dp" />-->
+                    <solid android:color="#0083AC" />
+                </shape>
+            </item>
+            <item android:bottom="2dp"
                 android:left="0dp"
-                android:right="0dp"
-                android:top="0dp" />
-        </shape>
-    </item>
+                android:right="2dp"
+                >
+                <shape>
+                    <gradient android:angle="270"
+                        android:endColor="#009fce"
+                        android:startColor="#009fce" />
 
-</layer-list>
+                    <!--<padding android:bottom="10dp"-->
+                        <!--android:left="10dp"-->
+                        <!--android:right="10dp"-->
+                        <!--android:top="10dp" />-->
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</selector>

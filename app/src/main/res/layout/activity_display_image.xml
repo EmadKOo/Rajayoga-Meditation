@@ -17,7 +17,7 @@
         android:src="@drawable/back_yellow"
         android:layout_margin="20dp"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true" />
     <TextView
         android:id="@+id/saveDisplayingImage"
         android:layout_width="wrap_content"
@@ -48,7 +48,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/placeholder"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            />
     </android.support.constraint.ConstraintLayout>
 
 </RelativeLayout>

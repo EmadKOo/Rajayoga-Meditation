@@ -2,5 +2,6 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true"
         android:drawable="@drawable/daily_border_pressed" /> <!-- pressed -->
-    <item android:drawable="@drawable/daily_border" /> <!-- default -->
+    <item android:drawable="@drawable/new_btn" /> <!-- default -->
+    <!--<item android:drawable="@drawable/daily_border" /> &lt;!&ndash; default &ndash;&gt;-->
 </selector>

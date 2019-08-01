@@ -53,6 +53,7 @@
                         android:layout_height="90dp"
                         android:src="@drawable/shivp"
                         android:layout_centerInParent="true"/>
+
                     <TextView
                         android:id="@+id/txdailyMurli"
                         android:layout_width="wrap_content"

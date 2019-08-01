@@ -1,13 +1,18 @@
 package emad.youtube;
 
+import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -44,7 +49,7 @@ public class SplashActivity extends AppCompatActivity {
     Button loginSplash;
     Button registerSplash;
     TextView skip;
-    Intent intent ;
+    Intent intent;
     private static final int TIME_SPLASH_CLOSE = 10000;//millis
     private static final int TIME_ANIMATION_DURATION = 3000;//millis
     private static final int TIME_ANIMATION_START = 500;//millis
@@ -61,6 +66,14 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        TelephonyManager telephonyManager;
+        telephonyManager = (TelephonyManager) getSystemService(Context.
+                TELEPHONY_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+        Log.d(TAG, "onCreate: telephonyManager  EMPTY" );
+            return;
+        }
+        Log.d(TAG, "onCreate: telephonyManager  " + telephonyManager.getDeviceId());
         mAuth = FirebaseAuth.getInstance();
         referenceViews();
 

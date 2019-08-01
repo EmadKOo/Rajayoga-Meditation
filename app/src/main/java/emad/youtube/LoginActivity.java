@@ -100,56 +100,46 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-                if (type.equals("Register")){
-                    if (!TextUtils.isEmpty(editTextLoginMail.getText().toString()) && !TextUtils.isEmpty(editTextLoginPassword.getText().toString())){
-                        showProgressDialog();
-                        mAuth.createUserWithEmailAndPassword(editTextLoginMail.getText().toString()
-                                ,editTextLoginPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (checkPasswordLength()){
+
+                    if (type.equals("Register")){
+                        registerNewAccount();
+                    }else if (type.equals("Login")){
+                        if (!TextUtils.isEmpty(editTextLoginMail.getText().toString()) && !TextUtils.isEmpty(editTextLoginPassword.getText().toString())){
+                            showProgressDialog();
+                            mAuth.signInWithEmailAndPassword(editTextLoginMail.getText().toString()
+                                    ,editTextLoginPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
                                     hideProgressDialog();
-                                if (task.isSuccessful()){
-                                    Log.d(TAG, "onComplete:Task Succeeded ");
-                                    Toast.makeText(LoginActivity.this, "Register Done Successfully", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                                    finish();
-                                }else {
-                                    Log.d(TAG, "onComplete:Task Failed ");
-                                    Toast.makeText(LoginActivity.this, "Register Failed, Try Later", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+                                    if (task.isSuccessful()){
+                                        Log.d(TAG, "onComplete:Task Succeeded ");
+                                       // Toast.makeText(LoginActivity.this, "Sign in Done Successfully", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                                        finish();
+                                    }else {
+                                        Log.d(TAG, "onComplete:Task Failed ");
+                                        Log.d(TAG, "onComplete: getException " + task.getException().getMessage());
+                                       // Toast.makeText(LoginActivity.this, "Sign in Failed, Try Later", Toast.LENGTH_SHORT).show();
 
-                    }else {
-                        Snackbar.make(findViewById(android.R.id.content), "You must Fill all Fields", Snackbar.LENGTH_SHORT).show();
-                    }
-                }else if (type.equals("Login")){
-                    if (!TextUtils.isEmpty(editTextLoginMail.getText().toString()) && !TextUtils.isEmpty(editTextLoginPassword.getText().toString())){
-                        showProgressDialog();
-                        mAuth.signInWithEmailAndPassword(editTextLoginMail.getText().toString()
-                                ,editTextLoginPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                hideProgressDialog();
-                                if (task.isSuccessful()){
-                                    Log.d(TAG, "onComplete:Task Succeeded ");
-                                    Toast.makeText(LoginActivity.this, "Sign in Done Successfully", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                                    finish();
-                                }else {
-                                    Log.d(TAG, "onComplete:Task Failed ");
-                                    Toast.makeText(LoginActivity.this, "Sign in Failed, Try Later", Toast.LENGTH_SHORT).show();
+                                        if (task.getException().getMessage().contains("There is no user record corresponding to this identifier")){
+                                            // register
+                                            registerNewAccount();
+
+                                        }else if (task.getException().getMessage().contains("password is invalid")){
+                                            Snackbar.make(findViewById(android.R.id.content), "Password is invalid0", Snackbar.LENGTH_SHORT).show();
+                                        }
+                                    }
                                 }
-                            }
-                        });
-                    }else {
-                        Snackbar.make(findViewById(android.R.id.content), "You must Fill all Fields", Snackbar.LENGTH_SHORT).show();
+                            });
+                        }else {
+                            Snackbar.make(findViewById(android.R.id.content), "You must Fill all Fields", Snackbar.LENGTH_SHORT).show();
+                        }
                     }
+
                 }
-
             }
         });
-
     }
     @Override
     public void onStart() {
@@ -264,5 +254,39 @@ public class LoginActivity extends BaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+    public void registerNewAccount(){
+        if (!TextUtils.isEmpty(editTextLoginMail.getText().toString()) && !TextUtils.isEmpty(editTextLoginPassword.getText().toString())){
+            showProgressDialog();
+            mAuth.createUserWithEmailAndPassword(editTextLoginMail.getText().toString()
+                    ,editTextLoginPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    hideProgressDialog();
+                    if (task.isSuccessful()){
+                        Log.d(TAG, "onComplete:Task Succeeded ");
+                       // Toast.makeText(LoginActivity.this, "Register Done Successfully", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                        finish();
+                    }else {
+                        Log.d(TAG, "onComplete:Task Failed ");
+                     //   Toast.makeText(LoginActivity.this, "Register Failed, Try Later", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+        }else {
+            Snackbar.make(findViewById(android.R.id.content), "You must Fill all Fields", Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
+    private boolean checkPasswordLength(){
+        if (editTextLoginPassword.getText().toString().length() <8){
+            Snackbar.make(findViewById(android.R.id.content), "Password must be more than 8 digits", Snackbar.LENGTH_SHORT).show();
+
+            return false;
+        }
+        return true;
     }
 }

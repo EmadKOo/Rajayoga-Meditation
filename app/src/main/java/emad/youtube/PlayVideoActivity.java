@@ -159,7 +159,9 @@ public class PlayVideoActivity extends YouTubeBaseActivity
     RandomAPI randomAPI = new RandomAPI();
     String currentAPIKey = "";
     String storagePermission[];
+    String telephonyPermission[];
     private static final int STORAGE_REQUEST_CODE = 400;
+    private static final int TELEPPHONY_REQUEST_CODE = 440;
 
 
     // Subscribtion
@@ -199,8 +201,9 @@ public class PlayVideoActivity extends YouTubeBaseActivity
             Log.d(TAG, "onCreate: latestArrayList " + latestArrayList.size());
             currentVideoID = latestVideo.getVideoId();
             videoName.setText(latestVideo.getTitle());
-           latestArrayList = filterLatestRestPlaylist(latestArrayList, currentVideoID);
+            latestArrayList = filterLatestRestPlaylist(latestArrayList, currentVideoID);
             initRecyclerView("latest");
+            initCommentsRecycler();
             videoViews(currentVideoID);
             getAllLikes(currentVideoID);
             setFavouriteAction(currentVideoID);
@@ -210,11 +213,12 @@ public class PlayVideoActivity extends YouTubeBaseActivity
             favourite.setChannelTitle(latestVideo.getChannelTitle());
             favourite.setTitle(latestVideo.getTitle());
             favourite.setUrl(latestVideo.getUrl());
-            favourite.setDescription(latestVideo.getDescription());
+//            favourite.setDescription(latestVideo.getDescription());
             favourite.setPublishedAt(latestVideo.getPublishedAt());
             favourite.setVideoID(latestVideo.getVideoId());
             favourite.setReaction("true");
-
+            getLatestDescription(currentVideoID);
+            Log.d(TAG, "onCreate: DES " + latestVideo.getDescription());
         }
         else
         {
@@ -253,6 +257,8 @@ public class PlayVideoActivity extends YouTubeBaseActivity
             favIcon.setVisibility(View.VISIBLE);
 
         storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        telephonyPermission = new String[]{Manifest.permission.READ_PHONE_STATE};
+
     }
 
     public void initRecyclerView(String type){
@@ -902,7 +908,16 @@ public class PlayVideoActivity extends YouTubeBaseActivity
                     Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
                 }
             }
-        }
+        }else if (requestCode == TELEPPHONY_REQUEST_CODE) {
+             if (grantResults.length > 0) {
+                 boolean writeStorageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                 if (writeStorageAccepted) {
+                     // add to favourites
+                 } else {
+                     Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+                 }
+             }
+         }
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
@@ -1176,5 +1191,54 @@ public class PlayVideoActivity extends YouTubeBaseActivity
             mainLayout.setVisibility(View.GONE);
         else
             super.onBackPressed();
+    }
+
+    public void getLatestDescription(String mVideoID){
+        String url = "https://www.googleapis.com/youtube/v3/videos?part=snippet&id="+mVideoID+"&key="+currentAPIKey;
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray jsonData = jsonObject.getJSONArray("items");
+                            String desc = jsonData.getJSONObject(0).getJSONObject("snippet").getString("description");
+                            Log.d(TAG, "onResponse: DESC " + desc);
+                            videoDesc.setText(desc);
+                            favourite.setDescription(desc);
+
+                        }catch (Exception ex){
+                            Log.d(TAG, "onResponse:ERROR " + ex.getMessage());
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "onErrorResponse: " + error.getMessage());
+                Log.d(TAG, "onErrorResponse: "+error);
+                Log.d(TAG, "onErrorResponse: " + error.networkResponse);
+                Log.d(TAG, "onErrorResponse: " + error.getLocalizedMessage());
+                Log.d(TAG, "onErrorResponse: " + error.getNetworkTimeMs());
+
+            }
+        });
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        MySingleton.getmInsance(PlayVideoActivity.this).addToRequestQueue(stringRequest);
+
+    }
+
+    private void requestTelephonyPermission() {
+        ActivityCompat.requestPermissions(this, telephonyPermission, TELEPPHONY_REQUEST_CODE);
+    }
+
+    private boolean checkTelephonyPermission() {
+        boolean result = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == (PackageManager.PERMISSION_GRANTED);
+
+        return result;
     }
 }

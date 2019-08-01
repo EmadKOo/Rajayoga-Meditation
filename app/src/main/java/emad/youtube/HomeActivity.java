@@ -96,6 +96,7 @@ public class HomeActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             if (currentFragment instanceof HomeFragment){
+              //  goToSearch.setVisibility(View.VISIBLE);
                 if (doubleBackToExitPressedOnce) {
                      super.onBackPressed();
                     //System.exit(0);
@@ -114,6 +115,7 @@ public class HomeActivity extends AppCompatActivity
                 }, 2000);
             }else {
                 loadFragment(new HomeFragment());
+                goToSearch.setVisibility(View.VISIBLE);
                 changeToolbar(new ColorDrawable(0xff009fce), "Rajayoga Meditation");
                 toolbarTitle.setTextColor(Color.parseColor("#ffffff"));
                 changeIcon(toggle, drawer,R.drawable.white_menu);
@@ -263,5 +265,7 @@ public class HomeActivity extends AppCompatActivity
         changeToolbar(colorDrawable, title);
 
     }
+
+
 
 }

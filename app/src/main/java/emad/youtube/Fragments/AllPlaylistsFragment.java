@@ -85,6 +85,8 @@ public class AllPlaylistsFragment extends Fragment {
             playlistsIDList.add("PLkYTNBmHiJIi0J30Yzmel8LZMjYe1yX7I");
             playlistsIDList.add("PLkYTNBmHiJIgi_Zo0V_LLRl41Q831NOwd");
             playlistsIDList.add("PLkYTNBmHiJIgkzaAHpuMsLPfAW-wLoXm2");
+            playlistsIDList.add("PLkYTNBmHiJIiSPAtCFoWjW1eXyrK8xZD5");
+            playlistsIDList.add("PLkYTNBmHiJIjfjzK95dG2cRwIE8WQ5GAb");
         }else if (type.equals("experienceMeditaion")){
             playlistsIDList.add("PLkYTNBmHiJIirqEKHbB8Nd5gAutWaIGpz");
             playlistsIDList.add("PLkYTNBmHiJIgyRlFSpAhfFzkes8be8n5a");
