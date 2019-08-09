@@ -1,6 +1,10 @@
 package emad.youtube;
 
+import android.Manifest;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -8,12 +12,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.ActionBar;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
@@ -34,6 +42,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.File;
 
+import emad.youtube.Adapters.FavouriteAdapter;
 import emad.youtube.Fragments.AboutFragment;
 import emad.youtube.Fragments.AllPlaylistsFragment;
 import emad.youtube.Fragments.ContactUsFragment;
@@ -41,7 +50,6 @@ import emad.youtube.Fragments.DailyFragment;
 import emad.youtube.Fragments.FavouriteVideosFragment;
 import emad.youtube.Fragments.HomeFragment;
 import emad.youtube.Fragments.LatestVideosFragment;
-import emad.youtube.Fragments.OfflineFragment;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -53,8 +61,9 @@ public class HomeActivity extends AppCompatActivity
     ImageView goToSearch;
     Bundle bundle;
     FirebaseAuth mAuth;
-
+    private static final int TELEPPHONY_REQUEST_CODE = 440;
     Intent intent;
+    String uniqueID;
 
     boolean doubleBackToExitPressedOnce = false;
     ActionBarDrawerToggle toggle = null;
@@ -78,8 +87,8 @@ public class HomeActivity extends AppCompatActivity
 
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        if (mAuth.getCurrentUser()==null)
-            navigationView.getMenu().getItem(9).setTitle("Sign in ");
+//        if (mAuth.getCurrentUser()==null)
+//            navigationView.getMenu().getItem(9).setTitle("Sign in ");
 
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -202,7 +211,17 @@ public class HomeActivity extends AppCompatActivity
 //            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 //            Uri uri = Uri.par/home/emad/Desktop/splas.jpgse(Environment.DIRECTORY_DOWNLOADS+"/Rajayoga Meditation"); // a directory
 //            intent.setDataAndType(uri, "*/*");
-//            startActivity(Intent.createChooser(intent, "Display Offline Videos"));
+//    public boolean loadFragment(Fragment fragment) {
+//        if (fragment != null) {
+//            getSupportFragmentManager()
+//                    .beginTransaction()
+//                    .replace(R.id.fragmentFrameLayout, fragment)
+//                    .commit();
+//            currentFragment = fragment;
+//            return true;
+//        }
+//        return false;
+//    }          startActivity(Intent.createChooser(intent, "Display Offline Videos"));
 
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             Uri uri = Uri.parse(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/Rajayoga Meditation"); //  directory path
@@ -221,8 +240,12 @@ public class HomeActivity extends AppCompatActivity
             changeIcon(toggle, drawer,R.drawable.white_menu);
             goToSearch.setVisibility(View.GONE);
         } else if (id == R.id.nav_Rate) {
-
-        }else if (id == R.id.nav_Login) {
+            try{
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id="+getPackageName())));
+            }
+            catch (ActivityNotFoundException e){
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id="+getPackageName())));
+            }        }else if (id == R.id.nav_Login) {
             Log.d(TAG, "onNavigationItemSelected: ");
             if (mAuth.getCurrentUser() == null){
                 startActivity(new Intent(HomeActivity.this, AuthActivity.class));
@@ -236,17 +259,7 @@ public class HomeActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-//    public boolean loadFragment(Fragment fragment) {
-//        if (fragment != null) {
-//            getSupportFragmentManager()
-//                    .beginTransaction()
-//                    .replace(R.id.fragmentFrameLayout, fragment)
-//                    .commit();
-//            currentFragment = fragment;
-//            return true;
-//        }
-//        return false;
-//    }
+
 
     public void loadFragment(android.support.v4.app.Fragment fragment){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -266,6 +279,39 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.d(TAG, "onRequestPermissionsResult: ");
+        Log.d(TAG, "Emad : NOT onRequestPermissionsResult");
+
+        if (requestCode == TELEPPHONY_REQUEST_CODE) {
+            if (grantResults.length > 0) {
+                Log.d(TAG, "Emad Activity: NOT onRequestPermissionsResult 222");
+
+                boolean writeStorageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                if (writeStorageAccepted) {
+                    // add to favourites
+                    Log.d(TAG, "onRequestPermissionsResult:fac ");
+                    getID();
+                    ((FavouriteVideosFragment)currentFragment).notifyFavourites();
+                } else {
+                    // Toast.makeText(getContext(), "Permission denied", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    private void getID() {
+        String ts = Context.TELEPHONY_SERVICE;
+        TelephonyManager mTelephonyMgr = (TelephonyManager) this.getSystemService(ts);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        uniqueID = mTelephonyMgr.getSubscriberId();
+        Log.d(TAG, "getID: imsi " + uniqueID);
+        Log.d(TAG, "getID: imsi 2  "  + Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID));
+    }
 
 
 }

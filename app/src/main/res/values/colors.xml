@@ -6,6 +6,7 @@
     <color name="homeToolbar">#272b2f</color>
     <color name="titleYellow">#ECA250</color>
     <color name="menucolor">#03A9F4</color>
+    <color name="internet">#009fce</color>
     <color name="white">#ffffff</color>
     <color name="white_transparent">#00FFFFFF</color>
     <color name="item_pressed">#14ededed</color>

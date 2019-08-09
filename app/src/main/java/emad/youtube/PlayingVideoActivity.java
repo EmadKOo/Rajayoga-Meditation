@@ -14,6 +14,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -23,6 +24,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.MenuItem;
@@ -83,11 +85,13 @@ import emad.youtube.Adapters.FavouriteRestAdapter;
 import emad.youtube.Adapters.LatestRestVideosAdapter;
 import emad.youtube.Adapters.RestVideosAdapter;
 import emad.youtube.Iterfaces.ChangeVideo;
+import emad.youtube.Iterfaces.IRequestPermission;
 import emad.youtube.Model.Comment.Comment;
 import emad.youtube.Model.Comment.CoreSnippet;
 import emad.youtube.Model.Favourite.Favourite;
 import emad.youtube.Model.Latest.Latest;
 import emad.youtube.Model.VideoList.ItemsListData;
+import emad.youtube.Tools.DialogHelper;
 import emad.youtube.Tools.RandomAPI;
 import emad.youtube.VolleyUtils.MySingleton;
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -97,8 +101,10 @@ public class PlayingVideoActivity extends YouTubeBaseActivity
         implements YouTubePlayer.OnInitializedListener
         ,YouTubePlayer.PlaybackEventListener
         ,YouTubePlayer.PlayerStateChangeListener
-        , ChangeVideo {
+        , ChangeVideo
+        , IRequestPermission {
 
+    String uniqueID = null;
     // channel bar
     CircleImageView channelImage;
     TextView channelName;
@@ -141,7 +147,7 @@ public class PlayingVideoActivity extends YouTubeBaseActivity
     ArrayList<Favourite> allUserFavouriteVideos = new ArrayList();
     Favourite favourite = new Favourite();
     Favourite LikeDislike = new Favourite();
-    String reaction = "";
+    String reaction = "true";
 
     private LinearLayout mainLayout;
     private ProgressBar mainProgressBar;
@@ -151,6 +157,9 @@ public class PlayingVideoActivity extends YouTubeBaseActivity
     // Subscribtion
     ProgressBar progressBar;
     GoogleAccountCredential mCredential;
+
+    String telephonyPermission[];
+    private static final int TELEPPHONY_REQUEST_CODE = 440;
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
@@ -164,11 +173,19 @@ public class PlayingVideoActivity extends YouTubeBaseActivity
             "https://www.googleapis.com/auth/youtube"};
 
     private static final String TAG = "PlayingVideoActivityext";
-
+    DialogHelper dialogHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playing_video);
+
+        dialogHelper = new DialogHelper(this, this);
+        telephonyPermission = new String[]{Manifest.permission.READ_PHONE_STATE};
+        if (checkTelephonyPermission())
+            getID();
+        else
+            dialogHelper.displayDialog("0");
+          //  requestTelephonyPermission();
 
         currentAPIKey = randomAPI.getRandomKey();
         mAuth = FirebaseAuth.getInstance();
@@ -203,8 +220,14 @@ public class PlayingVideoActivity extends YouTubeBaseActivity
     @Override
     protected void onStart() {
         super.onStart();
-        if (mAuth.getCurrentUser()!=null)
-            favIcon.setVisibility(View.VISIBLE);
+
+        storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        if (checkTelephonyPermission())
+            getID();
+
+//        if (mAuth.getCurrentUser()!=null)
+//            favIcon.setVisibility(View.VISIBLE);
+
     }
 
     public void initCommentsRecycler(){
@@ -273,7 +296,7 @@ public class PlayingVideoActivity extends YouTubeBaseActivity
         subscribeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mAuth.getCurrentUser() != null){
+                if(uniqueID != null){
 
                     if (getSharedPreferences().equals("default")){
                         subscribe();
@@ -315,7 +338,7 @@ public class PlayingVideoActivity extends YouTubeBaseActivity
                 }
             }
         });
-        if(mAuth.getCurrentUser() != null){
+        if(uniqueID != null){
             if (getSharedPreferences().equals("default")){
                 Log.d(TAG, "initViews: HELLLLLLLLO  default");
                 subscribeBtn.setText("Subscribe");
@@ -340,7 +363,8 @@ public class PlayingVideoActivity extends YouTubeBaseActivity
                     mainLayout.setVisibility(View.VISIBLE);
                     getYoutubeDownloadUrl(youtubeLink);
                 }else {
-                    requestStoragePermission();
+//                    requestStoragePermission();
+                    dialogHelper.displayDialog("1");
                 }
             }
         });
@@ -515,10 +539,10 @@ public class PlayingVideoActivity extends YouTubeBaseActivity
     public void getAllLikes(final String videoID){
         // get all likes
 
-        if (mAuth.getCurrentUser()!=null){
+        if (uniqueID!=null){
 // الحل اوصل للنود بتاعت الفيديو علطول احسن
 
-            favRef = FirebaseDatabase.getInstance().getReference().child("fav").child(mAuth.getCurrentUser().getUid()).child(videoID);
+            favRef = FirebaseDatabase.getInstance().getReference().child("favs").child(uniqueID).child(videoID);
             favRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -545,9 +569,10 @@ public class PlayingVideoActivity extends YouTubeBaseActivity
         favIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                favRef = FirebaseDatabase.getInstance().getReference().child("fav").child(mAuth.getCurrentUser().getUid()).child(videoID);
+
+                favRef = FirebaseDatabase.getInstance().getReference().child("favs").child(uniqueID).child(videoID);
                 favRef.removeValue();
-                favRef = FirebaseDatabase.getInstance().getReference().child("fav").child(mAuth.getCurrentUser().getUid()).child(videoID);
+                favRef = FirebaseDatabase.getInstance().getReference().child("favs").child(uniqueID).child(videoID);
             }
         });
     }
@@ -765,12 +790,33 @@ public class PlayingVideoActivity extends YouTubeBaseActivity
                     mainLayout.setVisibility(View.VISIBLE);
                     getYoutubeDownloadUrl(youtubeLink);
                 } else {
-                    Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+                }
+            }else if (requestCode == TELEPPHONY_REQUEST_CODE) {
+                if (grantResults.length > 0) {
+                    boolean writeStorageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    if (writeStorageAccepted) {
+                        // add to favourites
+                        Log.d(TAG, "onRequestPermissionsResult: ");
+                        getID();
+                    } else {
+                      //  Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         }
 
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    public void requestTelephone() {
+        requestTelephonyPermission();
+    }
+
+    @Override
+    public void requestStorage() {
+        requestStoragePermission();
     }
 
     private class MakeRequestTask extends AsyncTask<Void, Void, Subscription> {
@@ -848,9 +894,9 @@ public class PlayingVideoActivity extends YouTubeBaseActivity
                 } else if (mLastError instanceof UserRecoverableAuthIOException) {
                     startActivityForResult(((UserRecoverableAuthIOException) mLastError).getIntent(), REQUEST_AUTHORIZATION);
                 } else if (mLastError instanceof GoogleJsonResponseException) {
-                    Toast.makeText(getApplicationContext(), "GoogleJsonResponseException code: "
-                            + ((GoogleJsonResponseException) mLastError).getDetails().getCode() + " : "
-                            + ((GoogleJsonResponseException) mLastError).getDetails().getMessage(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), "GoogleJsonResponseException code: "
+//                            + ((GoogleJsonResponseException) mLastError).getDetails().getCode() + " : "
+//                            + ((GoogleJsonResponseException) mLastError).getDetails().getMessage(), Toast.LENGTH_SHORT).show();
                 } else {
                     Log.e(TAG, "The following error occurred:\n" + mLastError.getMessage());
                 }
@@ -885,21 +931,21 @@ public class PlayingVideoActivity extends YouTubeBaseActivity
 
     public void addLikeDislike(String rate){ // rate 1 like ,, rate 1 dislike ,, rate 0 no like no dislike
 
-        if (mAuth.getCurrentUser()!=null) {
-            ratingRef = FirebaseDatabase.getInstance().getReference().child("rating").child(mAuth.getCurrentUser().getUid()).child(currentVideoID);
+        if (uniqueID!=null) {
+            ratingRef = FirebaseDatabase.getInstance().getReference().child("rating").child(uniqueID).child(currentVideoID);
             LikeDislike = favourite;
             LikeDislike.setReaction(rate);
             ratingRef.setValue(LikeDislike);
         }else {
-            Toast.makeText(this, "Sign in with google to like video", Toast.LENGTH_SHORT).show();
+         //   Toast.makeText(this, "Sign in with google to like video", Toast.LENGTH_SHORT).show();
         }
     }
 
 
     String result="";
     public String getLikedDislikedBefore(){ // 1 if liked, -1 for dislike , 0 for not found
-        if (mAuth.getCurrentUser()!=null) {
-            ratingRef = FirebaseDatabase.getInstance().getReference().child("rating").child(mAuth.getCurrentUser().getUid()).child(currentVideoID);
+        if (uniqueID!=null) {
+            ratingRef = FirebaseDatabase.getInstance().getReference().child("rating").child(uniqueID).child(currentVideoID);
             ratingRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -994,11 +1040,13 @@ public class PlayingVideoActivity extends YouTubeBaseActivity
         btnText += (ytfile.getFormat().isDashContainer()) ? " dash" : "";
         Button btn = new Button(this);
         btn.setText(btnText);
+
         btn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 mainLayout.setVisibility(View.GONE);
+                if (videoTitle!= null){
                 String filename;
                 if (videoTitle.length() > 55) {
                     filename = videoTitle.substring(0, 55) + "." + ytfile.getFormat().getExt();
@@ -1008,6 +1056,7 @@ public class PlayingVideoActivity extends YouTubeBaseActivity
                 filename = filename.replaceAll("[\\\\><\"|*?%:#/]", "");
                 downloadFromUrl(ytfile.getUrl(), videoTitle, filename);
 
+            }
             }
         });
         mainLayout.addView(btn);
@@ -1043,5 +1092,32 @@ public class PlayingVideoActivity extends YouTubeBaseActivity
             mainLayout.setVisibility(View.GONE);
         else
             super.onBackPressed();
+    }
+
+    private void requestTelephonyPermission() {
+        ActivityCompat.requestPermissions(this, telephonyPermission, TELEPPHONY_REQUEST_CODE);
+    }
+
+    private boolean checkTelephonyPermission() {
+        boolean result = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == (PackageManager.PERMISSION_GRANTED);
+
+        return result;
+    }
+    private void getID() {
+        String ts = Context.TELEPHONY_SERVICE;
+        TelephonyManager mTelephonyMgr = (TelephonyManager) getSystemService(ts);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        uniqueID = mTelephonyMgr.getSubscriberId();
+        Log.d(TAG, "getID: imsi " + uniqueID);
+        Log.d(TAG, "getID: imsi 2  "  + Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID));
     }
 }

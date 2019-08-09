@@ -147,7 +147,7 @@ public class FavouriteActivity extends AppCompatActivity
     public void initRecyclerView(){
         favRecycler = findViewById(R.id.favRecycler);
         favRecycler.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new FavouriteAdapter(favouriteList, FavouriteActivity.this);
+        adapter = new FavouriteAdapter(favouriteList, FavouriteActivity.this,"");
         favRecycler.setAdapter(adapter);
     }
 

@@ -1,6 +1,7 @@
 package emad.youtube;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -39,6 +40,7 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
+import emad.youtube.Tools.CheckInternet;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -60,72 +62,106 @@ public class SplashActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     private Runnable mRunnable;
     private Handler mHandler;
+    CheckInternet checkInternet;
+    boolean isConnected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        TelephonyManager telephonyManager;
-        telephonyManager = (TelephonyManager) getSystemService(Context.
-                TELEPHONY_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-        Log.d(TAG, "onCreate: telephonyManager  EMPTY" );
-            return;
-        }
-        Log.d(TAG, "onCreate: telephonyManager  " + telephonyManager.getDeviceId());
+
         mAuth = FirebaseAuth.getInstance();
         referenceViews();
 
-        myRef = FirebaseDatabase.getInstance().getReference().child("security").child("msg");
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                msg = dataSnapshot.getValue().toString();
-                if (msg.equals("Security")){
-                  //  startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                    if (mAuth.getCurrentUser()==null)
-                        handleAuth();
-                    else{
-                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+        checkInternet = new CheckInternet(this);
+        isConnected = checkInternet.checkConnection();
+        if (isConnected) {
+            myRef = FirebaseDatabase.getInstance().getReference().child("security").child("msg");
+            myRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    msg = dataSnapshot.getValue().toString();
+                    if (msg.equals("Security")) {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(1000);
+                                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                                    finish();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
+                        //                    if (mAuth.getCurrentUser()==null)
+                        //                        handleAuth();
+                        //                    else{
+                        //                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                        //                        finish();
+                        //                    }
+
+                    } else {
+                        intent = new Intent(getApplicationContext(), SecurityActivity.class);
+                        intent.putExtra("msg", msg);
+                        startActivity(intent);
                         finish();
                     }
+                }
 
-                }else {
-                    intent = new Intent(getApplicationContext(), SecurityActivity.class);
-                    intent.putExtra("msg",msg);
-                    startActivity(intent);
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+
+            /**
+             * NOTIFICATIONS
+             */
+
+            FirebaseMessaging.getInstance().setAutoInitEnabled(true);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                // Create channel to show notifications.
+                String channelId = "youtube";
+                String channelName = "youtube";
+                NotificationManager notificationManager =
+                        getSystemService(NotificationManager.class);
+                notificationManager.createNotificationChannel(new NotificationChannel(channelId,
+                        channelName, NotificationManager.IMPORTANCE_LOW));
+            }
+
+
+            subscribeTopic();
+            getToken();
+        }else {
+            // Display Dialog
+            Dialog dialog = new Dialog(this);
+            dialog.setContentView(R.layout.no_internet);
+            dialog.setCancelable(false);
+
+            Button btnRetry = dialog.findViewById(R.id.retry);
+            Button btnTryLater = dialog.findViewById(R.id.tryLater);
+
+            btnRetry.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(SplashActivity.this, SplashActivity.class));
                     finish();
                 }
-            }
+            });
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            btnTryLater.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    System.exit(0);
+                }
+            });
 
-            }
-        });
-
-
-        /**
-         * NOTIFICATIONS
-         */
-
-        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // Create channel to show notifications.
-            String channelId  = "youtube";
-            String channelName = "youtube";
-            NotificationManager notificationManager =
-                    getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(new NotificationChannel(channelId,
-                    channelName, NotificationManager.IMPORTANCE_LOW));
+            dialog.show();
         }
-
-
-        subscribeTopic();
-        getToken();
-
     }
 
     public void subscribeTopic(){

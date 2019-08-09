@@ -1,9 +1,15 @@
 package emad.youtube.Adapters;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,10 +35,12 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.MyVi
     Intent intent;
     DatabaseReference favRef;
     FirebaseAuth mAuth;
+    String uniqueID;
 
-    public FavouriteAdapter(ArrayList<Favourite> favouriteList, Context context) {
+    public FavouriteAdapter(ArrayList<Favourite> favouriteList, Context context, String uniqueID) {
         this.favouriteList = favouriteList;
         this.context = context;
+        this.uniqueID = uniqueID;
         mAuth = FirebaseAuth.getInstance();
     }
 
@@ -58,9 +66,10 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.MyVi
             @Override
             public void onClick(View v) {
                 // remove node from firebase and refresh adapter also you can use interface
-                favRef = FirebaseDatabase.getInstance().getReference().child("fav").child(mAuth.getCurrentUser().getUid()).child(favouriteList.get(i).getVideoID());
+
+                favRef = FirebaseDatabase.getInstance().getReference().child("favs").child(uniqueID).child(favouriteList.get(i).getVideoID());
                 favRef.removeValue();
-                favRef = FirebaseDatabase.getInstance().getReference().child("fav").child(mAuth.getCurrentUser().getUid()).child(favouriteList.get(i).getVideoID());
+                favRef = FirebaseDatabase.getInstance().getReference().child("favs").child(uniqueID).child(favouriteList.get(i).getVideoID());
                 notifyDataSetChanged();
             }
         });
@@ -95,4 +104,5 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.MyVi
             favIco = itemView.findViewById(R.id.favIco);
         }
     }
+
 }

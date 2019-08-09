@@ -1,5 +1,7 @@
 package emad.youtube;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,6 +18,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.youtube.player.YouTubeIntents;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -27,12 +30,15 @@ import emad.youtube.Model.Video.Video;
 import emad.youtube.Model.VideoList.ItemsListData;
 import emad.youtube.Model.VideoList.VideoList;
 import emad.youtube.Tools.RandomAPI;
+import emad.youtube.Tools.Redhat;
 import emad.youtube.VolleyUtils.MySingleton;
+
 
 public class ViewPlaylistVideosActivity extends AppCompatActivity {
 
     TextView playlistName;
     ImageView imgBackIco;
+    Redhat moreVideos;
 
     RecyclerView videosOfSelectedPlaylistsRecycler;
     DisplayVideosPlaylistAdapter adapter;
@@ -49,6 +55,8 @@ public class ViewPlaylistVideosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_playlist_videos);
 
+        selectedPlaylist = (PlayListItems)getIntent().getSerializableExtra("playlist");
+        goToYoutube();
         currentAPIKey = randomAPI.getRandomKey();
         Toolbar toolbar = findViewById(R.id.toolbar);
         playlistName = findViewById(R.id.playlistName);
@@ -61,7 +69,7 @@ public class ViewPlaylistVideosActivity extends AppCompatActivity {
         });
 
         initRecyclerView();
-        selectedPlaylist = (PlayListItems)getIntent().getSerializableExtra("playlist");
+
         playlistName.setText(selectedPlaylist.getSnippet().getTitle());
         Log.d(TAG, "onCreate: " + selectedPlaylist.getSnippet().getTitle());
         getVideosOfSelectedPlaylist();
@@ -72,6 +80,7 @@ public class ViewPlaylistVideosActivity extends AppCompatActivity {
 
     public void getVideosOfSelectedPlaylist(){
         String url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId="+selectedPlaylist.getId()+"&key="+ currentAPIKey;
+        Log.d(TAG, "getVideosOfSelectedPlaylist: " + url);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -119,7 +128,58 @@ public class ViewPlaylistVideosActivity extends AppCompatActivity {
         videosOfSelectedPlaylistsRecycler = findViewById(R.id.videosOfSelectedPlaylistsRecycler);
      //   videosOfSelectedPlaylistsRecycler.setLayoutManager(new LinearLayoutManager(this));
         videosOfSelectedPlaylistsRecycler.setLayoutManager(new GridLayoutManager(this, 3));
+        videosOfSelectedPlaylistsRecycler.addOnScrollListener(onScrollListener);
         adapter = new DisplayVideosPlaylistAdapter(ViewPlaylistVideosActivity.this,videoArrayList);
         videosOfSelectedPlaylistsRecycler.setAdapter(adapter);
+    }
+    public RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+
+            if (isLastItem(recyclerView)){
+                Log.d(TAG, "onScrollStateChanged: load more" );
+                moreVideos.setVisibility(View.VISIBLE);
+                // here get the latest data
+            }else {
+                moreVideos.setVisibility(View.GONE);
+            }
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+
+            Log.d(TAG, "onScrolled: ");
+
+            if (isLastItem(recyclerView)){
+                Log.d(TAG, "onScrollStateChanged: load more" );
+                moreVideos.setVisibility(View.VISIBLE);
+                // here get the latest data
+            }else {
+                moreVideos.setVisibility(View.GONE);
+            }
+        }
+    };
+    private boolean isLastItem(RecyclerView recyclerView){
+        Log.d(TAG, "isLastItem: ");
+        if (recyclerView.getAdapter().getItemCount() != 0){
+            int lastVisibleItemPosition = ((LinearLayoutManager)recyclerView.getLayoutManager()).findLastVisibleItemPosition();
+            if (lastVisibleItemPosition != RecyclerView.NO_POSITION && lastVisibleItemPosition == recyclerView.getAdapter().getItemCount() - 1){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void goToYoutube(){
+        moreVideos = findViewById(R.id.moreVideos);
+        moreVideos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = YouTubeIntents.createPlayPlaylistIntent(getApplicationContext(), selectedPlaylist.getId());
+                startActivity(intent);
+            }
+        });
     }
 }

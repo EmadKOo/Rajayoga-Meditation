@@ -116,6 +116,7 @@
         android:layout_alignTop="@id/favIcon"
         android:layout_marginTop="7dp"
         android:src="@drawable/download"/>
+
     <TextView
         android:id="@+id/videoDesc"
         android:layout_width="wrap_content"

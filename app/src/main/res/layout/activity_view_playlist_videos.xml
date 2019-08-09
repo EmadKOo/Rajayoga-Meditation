@@ -48,5 +48,21 @@
         android:layout_below="@+id/actionbar"
         android:id="@+id/videosOfSelectedPlaylistsRecycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/moreVideos"/>
+
+    <emad.youtube.Tools.Redhat
+        android:id="@+id/moreVideos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="More Videos"
+        android:layout_centerHorizontal="true"
+        android:textColor="#FF1100"
+        android:layout_alignParentBottom="true"
+        android:gravity="bottom"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:visibility="gone"
+        />
+
 </RelativeLayout>
